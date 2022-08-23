@@ -1,5 +1,5 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
-import {prisma} from '../../../server/router/prisma'
+import {prisma} from '../../../utils/'
 import DiscordProvider from 'next-auth/providers/discord';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google'

@@ -21,7 +21,7 @@ function PostContent({
   votesCount
 }: PostContentType) {
   return (
-    <section className="flex min-h-96 shadow rounded gap-10 my-3 w-full mx-3  p-5 justify-around rounded">
+    <section className="flex min-h-96 border-2 boder-slate-500 shadow-lg rounded gap-10 my-3 w-full mx-3  p-5 justify-around rounded">
 
       <div className="flex flex-col justify-around gap-5 h-32 ">
         <div className="text-2xl text-slate-400"><FaArrowUp/> </div>
@@ -34,7 +34,7 @@ function PostContent({
       </header>
       <div className="text-xl">{PostContent}</div>
       <section className="flex border-t-4 justify-evenly mt-5 items-center p-5">
-        <figure className="flex justify-around items-center w-1/2 h-auto gap-5">
+        <figure className="flex justify-around items-center  w-full h-auto gap-5">
           <Image
             width={36}
             height={36}

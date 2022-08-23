@@ -15,10 +15,9 @@ const NavList = ({ additionalClasses, text, children }: NavListType) => {
     </li>
   );
 };
-
 const Navbar = () => {
   return (
-    <nav className="flex justify-around items-center w-full shadow-lg ">
+    <nav className="flex justify-between px-3 py-2 gap-3 items-center w-full shadow-lg ">
       <header>
         <h1 className="font-['Inter'] text-3xl first-letter:text-blue-500">
           {' '}
