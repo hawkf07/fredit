@@ -7,8 +7,12 @@ import { HomePage } from '../components/HomePage/Homepage';
 
 const Home = () => {
   const name = trpc.useQuery(['example.name', { text: 'fikri' }]);
+  const {data:session} = useSession()
+  console.log(session)
   return (
     <>
+      <span> Signed In As {session?.user.email}</span>
+      <button onClick={() => signOut()}> Logout </button> 
       <HomePage />
     </>
   );

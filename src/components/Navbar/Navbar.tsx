@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import React, { ReactNode, FC } from 'react';
-import {Button } from '../Button'
+import { Button } from '../Button'
 interface NavListType {
   additionalClasses?: string;
   text?: string;
@@ -26,7 +27,7 @@ const Navbar = () => {
       </header>
       <ul className="flex justify-around items-center">
         <NavList>
-          <Button> <a>Log in/Sign Up </a> </Button>
+          <Button> <Link href="/api/auth/signin" >Sign In/Log In </Link> </Button>
         </NavList>
         <NavList >
           <div className="rounded-[50%] bg-gray-300 w-8 h-8 shadow"></div>
