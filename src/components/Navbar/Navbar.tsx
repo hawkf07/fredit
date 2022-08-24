@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import Image from 'next/image'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import Image from 'next/image';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import React, { ReactNode, FC } from 'react';
-import { Button } from '../Button'
+import { Button } from '../Button';
+import { PostForm } from '../PostForm/';
 interface NavListType {
   additionalClasses?: string;
   text?: string;
@@ -17,8 +18,10 @@ const NavList = ({ additionalClasses, text, children }: NavListType) => {
     </li>
   );
 };
+
 const Navbar = () => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <nav className="flex justify-between px-3 py-2 gap-3 items-center w-full shadow-lg ">
       <header>
@@ -29,10 +32,33 @@ const Navbar = () => {
       </header>
       <ul className="flex justify-around items-center">
         <NavList>
-          {!session && <Button> <Link href="/api/auth/signin" >Sign In/Log In </Link> </Button>}
+          {!session && (
+            <Button>
+              {' '}
+              <Link href="/api/auth/signin">Sign In/Log In </Link>{' '}
+            </Button>
+          )}
         </NavList>
-        <NavList >
-          <Image width={24} height={24} className="rounded-full bg-gray-300 w-8 h-8 shadow" src={session?.user?.image} />
+        <NavList>{session && session?.user?.name}</NavList>
+        <NavList>
+          <Image
+            src={`${
+              session?.user?.image
+                ? session?.user?.image
+                : '/avatar-svgrepo-com.svg'
+            } `}
+            className="rounded-full"
+            width={32}
+            height={32}
+          />
+        </NavList>
+        {session && (
+          <NavList>
+            <button onClick={() => signOut()}> Logout</button>
+          </NavList>
+        )}
+        <NavList>
+          <PostForm />
         </NavList>
       </ul>
     </nav>

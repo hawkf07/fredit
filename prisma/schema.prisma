@@ -34,16 +34,20 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
+  id            String       @id @default(cuid())
+  name          String?      @unique
+  email         String?      @unique
   emailVerified DateTime?
+  image         String?
   accounts      Account[]
   sessions      Session[]
-  posts         Post[]
-  postsId       String?
-  Comment       Comment?  @relation(fields: [commentId], references: [id])
+  Comment       Comment?     @relation(fields: [commentId], references: [id])
   commentId     String?
+  postId        String?
+  SubFreddit    SubFreddit[]
+  Post          Post[]
+  authorPost    Post?        @relation(name: "author")
+  commentauthor Comment?     @relation("commentAuthor")
 }
 
 model VerificationToken {
@@ -57,17 +61,40 @@ model VerificationToken {
 model Comment {
   id          String  @id @default(cuid())
   commentText String
+  body        String
+  author      User    @relation("commentAuthor", fields: [authorName], references: [name], onDelete: Cascade, onUpdate: Cascade)
+  authorName  String  @unique
   Post        Post?   @relation(fields: [postId], references: [id])
   postId      String?
   User        User[]
 }
 
 model Post {
-  id          String    @id @default(cuid())
+  id    String  @id @default(cuid())
+  title String?
+
+  description  String?
+  votesCount   Int         @default(0)
+  comments     Comment[]
+  identifier   String      @unique @default(cuid())
+  dateCreated  DateTime    @default(now())
+  User         User[]
+  postsId      String?
+  author       User?       @relation("author", fields: [authorName], references: [name], onDelete: Cascade, onUpdate: Cascade)
+  authorName   String?     @unique
+  SubFreddit   SubFreddit? @relation(fields: [subFredditId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  subFredditId String?
+}
+
+model SubFreddit {
+  id          String  @id @default(cuid())
+  name        String  @unique
   title       String?
-  description String?
-  votesCount  Int?
-  comments    Comment[]
-  dateCreated DateTime
-  User        User[]
+  posts       Post[]
+  imageUrl    String?
+  bannerUrl   String?
+  creator     User    @relation(fields: [creatorName], references: [name], onDelete: Cascade, onUpdate: Cascade)
+  creatorName String
+
+  @@index([name])
 }
