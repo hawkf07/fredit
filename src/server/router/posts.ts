@@ -3,22 +3,40 @@ import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 
 export const postRouter = createRouter()
+  .middleware(async( {ctx,next}) =>{
+    if (!ctx.session) {
+      throw new TRPCError({code:"UNAUTHORIZED"});
+    }
+    return next()
+  })
   .mutation('create-post', {
     input: z.object({
       title: z.string().nullish(),
-      description: z.string().nullish().optional()
+      description: z.string().nullish().optional(),
+      something:z.string().optional()
     }),
     async resolve({ input, ctx }) {
+      try{
       const createdPost = await ctx.prisma.post.create({
         data: {
           title: input.title,
-          description: input.description
+          description: input.description,
+          author:{
+            create:{
+              
+            }
+          
         }
       });
-      return createdPost;
+
+      return createdPost
+    }
+    catch(error) {
+      console.log(error)
+    }
     }
   })
-  .mutation('update-post', {
+ .mutation('update-post', {
     input: z.object({
       description: z.string().nullish().optional(),
       title: z.string(),
@@ -44,13 +62,4 @@ export const postRouter = createRouter()
       }
     }
   })
-  .query('get-posts', {
-    async resolve({ input, ctx }) {
-      try {
-        const posts = await ctx.prisma.post.findMany();
-        return posts;
-      } catch (error) {
-        console.log('there are no posts ', error);
-      }
-    }
-  });
+

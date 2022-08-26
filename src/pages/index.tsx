@@ -9,6 +9,9 @@ import { useMutation } from 'react-query';
 const Home = () => {
   return (
     <>
+      <Head>
+        <title>Freddit | A Reddit Clone</title>
+      </Head>
       <HomePage />
     </>
   );

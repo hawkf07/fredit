@@ -4,10 +4,8 @@ import { FaArrowUp, FaComment, FaArrowDown } from 'react-icons/fa/';
 import { GoCommentDiscussion } from 'react-icons/go/';
 
 import Image from 'next/image';
-
 const Post = () => {
   const posts = trpc.useQuery(['posts.get-posts']);
-  console.log(posts.data)
   return (
     <section className="w-full  font-['Inter'] gap-5 justify-around p-5 items-center">
       {posts.isError && 'There is Some Error'}

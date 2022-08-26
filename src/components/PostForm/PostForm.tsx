@@ -33,11 +33,15 @@ const PostForm = () => {
             <textarea
               className="textarea border-slate-400 rounded-none w-full"
               name="description"
+              placeholder="please enter the post description"
               onKeyUp={userInputHandler}
             ></textarea>
             <button type="submit" className="btn btn-primary w-full">
               Submit
             </button>
+            {createPost.isLoading && (<p> Loading ..... </p>)}
+            {createPost.isSuccess && (<p> Success </p>)}
+            {createPost.isError && (<p> Error not authorized. Please Login first</p>)}
           </form>
           <div className="modal-action">
             <label htmlFor="my-modal" className="btn btn-wide">
