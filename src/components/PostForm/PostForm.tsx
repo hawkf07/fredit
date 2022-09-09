@@ -1,9 +1,9 @@
 import { usePostHandler } from '../../utils/posts-handler';
-import {trpc} from '../../utils/trpc'
+import { trpc } from '../../utils/trpc'
 
 const PostForm = () => {
-  const {userInput, userInputHandler } = usePostHandler();
-  const createPost = trpc.useMutation("posts.create-post")
+  const { userInput, userInputHandler } = usePostHandler();
+  const createPost = trpc.useMutation("posts.create-post-by-user")
   return (
     <>
       <label htmlFor="my-modal" className="btn modal-button">
@@ -17,10 +17,10 @@ const PostForm = () => {
           </header>
           <form
             onSubmit={(e) => {
-                e.preventDefault()
-                createPost?.mutate({title:userInput.title,description:userInput.description})
-                console.log(createPost?.data)
-              }}
+              e.preventDefault()
+              createPost?.mutate({ title: userInput.title, description: userInput.description, id: 'cl77ryzkv0016rrpt5ri0tjy1' })
+              console.log(createPost?.data)
+            }}
             className="flex flex-col w-full gap-3"
           >
             <input

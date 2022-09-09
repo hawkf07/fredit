@@ -1,42 +1,41 @@
 import { createRouter } from './context';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { createProtectedRouter } from './protected-router'
 
-export const postRouter = createRouter()
-  .middleware(async( {ctx,next}) =>{
-    if (!ctx.session) {
-      throw new TRPCError({code:"UNAUTHORIZED"});
-    }
-    return next()
-  })
-  .mutation('create-post', {
+
+export const postRouter = createProtectedRouter()
+  .mutation('create-post-by-user', {
     input: z.object({
       title: z.string().nullish(),
       description: z.string().nullish().optional(),
-      something:z.string().optional()
+      id: z.string(),
+
     }),
     async resolve({ input, ctx }) {
-      try{
-      const createdPost = await ctx.prisma.post.create({
-        data: {
-          title: input.title,
-          description: input.description,
-          author:{
-            create:{
-              
+      try {
+        const createdPost = await ctx.prisma.user.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            Post: {
+              create: {
+                title: input.title,
+                description: input.description
+              }
             }
-          
-        }
-      });
-
-      return createdPost
-    }
-    catch(error) {
-      console.log(error)
-    }
+          }
+        })
+        return createdPost
+      }
+      catch (error) {
+        console.log(error)
+        return new TRPCError({code:"UNAUTHORIZED"})
+      }
     }
   })
- .mutation('update-post', {
+  .mutation('update-post', {
     input: z.object({
       description: z.string().nullish().optional(),
       title: z.string(),
@@ -62,4 +61,3 @@ export const postRouter = createRouter()
       }
     }
   })
-

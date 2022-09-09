@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -78,7 +77,7 @@ model Post {
   comments     Comment[]
   identifier   String      @unique @default(cuid())
   dateCreated  DateTime    @default(now())
-  users        User[]
+  User         User[]
   author       User?       @relation("author", fields: [authorName], references: [name], onDelete: Cascade, onUpdate: Cascade)
   authorName   String?     @unique
   SubFreddit   SubFreddit? @relation(fields: [subFredditId], references: [id], onDelete: Cascade, onUpdate: Cascade)

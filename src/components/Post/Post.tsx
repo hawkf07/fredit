@@ -10,7 +10,7 @@ const Post = () => {
     <section className="w-full  font-['Inter'] gap-5 justify-around p-5 items-center">
       {posts.isError && 'There is Some Error'}
       {posts.data &&
-        posts?.data?.map((post) => {
+        posts.data?.map((post) => {
           return (
             <PostContent
               key={post.id}
